@@ -15,7 +15,7 @@ jobs:
       uses: 8398a7/action-slack@v3
       if: always()
       with:
-        status: started
+        status: ${{ job.status }}
         fields: repo,message,commit,author
         author_name: Started TestCache
         mention: here
