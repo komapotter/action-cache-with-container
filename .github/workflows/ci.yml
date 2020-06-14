@@ -17,9 +17,10 @@ jobs:
       with:
         status: ${{ job.status }}
         fields: repo,message,commit,author
+        author_name: TestCache
         mention: here
         if_mention: failure,cancelled
-        channel: '#deploy-notice'
+        channel: '#deploy'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
