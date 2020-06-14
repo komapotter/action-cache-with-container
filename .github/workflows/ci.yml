@@ -10,7 +10,7 @@ jobs:
     name: TestCache
     runs-on: ubuntu-18.04
     container:
-      image: 36rafts/nukegara:latest
+      image: 36rafts/nukegara-builder:latest
 
     steps:
       #    - name: Started Job
@@ -35,13 +35,18 @@ jobs:
         ls -al $HOME
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
+        echo "GOPATH: $GOPATH"
+        echo "$GOPATH/src/nukegara"
+        ls -al $GOPATH/src/nukegara
+        echo "$GOPATH/pkg"
+        ls -al $GOPATH/pkg
 
     - uses: actions/cache@v2
       id: test-cache
       env:
         cache-name: cache-text
       with:
-        path: ~/.testcache
+        path: .testcache
         key: ${{ runner.os }}-build-${{ env.cache-name }}-
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -55,12 +60,17 @@ jobs:
         ls -al $HOME
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
+        echo "GOPATH: $GOPATH"
+        echo "$GOPATH/src/nukegara"
+        ls -al $GOPATH/src/nukegara
+        echo "$GOPATH/pkg"
+        ls -al $GOPATH/pkg
 
     - name: write test-data
       if: steps.test-cache.outputs.cache-hit != 'true'
       run: |
-        mkdir ~/.testcache
-        echo "testtesttest" > ~/.testcache/test.txt
+        mkdir .testcache
+        echo "testtesttest" > .testcache/test.txt
 
     - name: after write test-data
       run: |
@@ -70,3 +80,8 @@ jobs:
         ls -al $HOME
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
+        echo "GOPATH: $GOPATH"
+        echo "$GOPATH/src/nukegara"
+        ls -al $GOPATH/src/nukegara
+        echo "$GOPATH/pkg"
+        ls -al $GOPATH/pkg
