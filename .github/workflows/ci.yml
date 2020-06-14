@@ -44,8 +44,8 @@ jobs:
         ls -al $GOPATH
         echo "$GOPATH/src/nukegara"
         ls -al $GOPATH/src/nukegara
-        echo "$GOPATH/pkg"
-        ls -al $GOPATH/pkg
+        echo "$GOPATH/pkg/mod"
+        ls -al $GOPATH/pkg/mod
         echo ".go_mod_cache"
         ls -al .go_mod_cache
 
@@ -72,14 +72,15 @@ jobs:
         ls -al $GOPATH
         echo "$GOPATH/src/nukegara"
         ls -al $GOPATH/src/nukegara
-        echo "$GOPATH/pkg"
-        ls -al $GOPATH/pkg
+        echo "$GOPATH/pkg/mod"
+        ls -al $GOPATH/pkg/mod
         echo ".go_mod_cache"
         ls -al .go_mod_cache
 
     - name: go_mod_download
       if: steps.test-cache.outputs.cache-hit != 'true'
       run: |
+        cd $GOPATH/src/nukegara
         go mod download
 
     - name: after write test-data
@@ -94,7 +95,7 @@ jobs:
         ls -al $GOPATH
         echo "$GOPATH/src/nukegara"
         ls -al $GOPATH/src/nukegara
-        echo "$GOPATH/pkg"
-        ls -al $GOPATH/pkg
+        echo "$GOPATH/pkg/mod"
+        ls -al $GOPATH/pkg/mod
         echo ".go_mod_cache"
         ls -al .go_mod_cache
