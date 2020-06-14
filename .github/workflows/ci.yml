@@ -15,9 +15,9 @@ jobs:
       uses: 8398a7/action-slack@v3
       if: always()
       with:
-        status: ${{ job.status }}
+        status: started
         fields: repo,message,commit,author
-        author_name: TestCache
+        author_name: Started TestCache
         mention: here
         if_mention: failure,cancelled
         channel: '#deploy'
@@ -56,6 +56,7 @@ jobs:
     - name: write text file
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
+        mkdir ~/.testcache
         echo "testtesttest" > ~/.testcache/test.txt
 
     - name: after write
