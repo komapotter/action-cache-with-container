@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-cache:
+    name: TestCache
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Started Job
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: success
+        fields: repo,message,commit,author
+        mention: here
+        if_mention: failure,cancelled
+        channel: '#deploy-notice'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: before cache
+      run: |
+        echo "~"
+        ls -al ~/
+        echo "HOME: $HOME"
+        ls -al $HOME
+        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+        ls -al $GITHUB_WORKSPACE
+
+    - uses: actions/cache@v2
+      env:
+        cache-name: cache-text
+      with:
+        path: ~/.testcache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+
+    - name: before write
+      run: |
+        echo "~"
+        ls -al ~/
+        echo "HOME: $HOME"
+        ls -al $HOME
+        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+        ls -al $GITHUB_WORKSPACE
+
+    - name: write text file
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        echo "testtesttest" > ~/.testcache/test.txt
+
+    - name: after write
+      run: |
+        echo "~"
+        ls -al ~/
+        echo "HOME: $HOME"
+        ls -al $HOME
+        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+        ls -al $GITHUB_WORKSPACE
