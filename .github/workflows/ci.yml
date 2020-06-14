@@ -25,7 +25,7 @@ jobs:
       #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-    - name: before cache
+    - name: before cache-restore
       run: |
         echo "~"
         ls -al ~/
@@ -45,7 +45,7 @@ jobs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
 
-    - name: before write
+    - name: after cache-restore
       run: |
         echo "~"
         ls -al ~/
@@ -54,13 +54,13 @@ jobs:
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
 
-    - name: write text file
+    - name: write test-data
       if: steps.test-cache.outputs.cache-hit != 'true'
       run: |
         mkdir ~/.testcache
         echo "testtesttest" > ~/.testcache/test.txt
 
-    - name: after write
+    - name: after write test-data
       run: |
         echo "~"
         ls -al ~/
