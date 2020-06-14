@@ -30,7 +30,7 @@ jobs:
     - name: init for cache
       run: |
         mkdir -p $GOPATH/pkg/mod
-        ln -s $GOPATH/pkg .go_pkg
+        ln -s $GOPATH/pkg/mod .go_pkg_mod
 
     - name: before cache-restore
       run: |
@@ -46,15 +46,15 @@ jobs:
         ls -al $GOPATH/src/nukegara
         echo "$GOPATH/pkg/mod"
         ls -al $GOPATH/pkg/mod
-        echo ".go_pkg/mod/"
-        ls -al .go_pkg/mod/
+        echo ".go_pkg_mod/"
+        ls -al .go_pkg_mod/
 
     - uses: actions/cache@v2
       id: test-cache
       env:
         cache-name: go-mod-cache
       with:
-        path: .go_pkg/mod
+        path: .go_pkg_mod/
         key: ${{ runner.os }}-build-${{ env.cache-name }}-
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -74,8 +74,8 @@ jobs:
         ls -al $GOPATH/src/nukegara
         echo "$GOPATH/pkg/mod"
         ls -al $GOPATH/pkg/mod
-        echo ".go_pkg/mod/"
-        ls -al .go_pkg/mod/
+        echo ".go_pkg_mod/"
+        ls -al .go_pkg_mod/
 
     - name: go_mod_download
       if: steps.test-cache.outputs.cache-hit != 'true'
@@ -97,5 +97,5 @@ jobs:
         ls -al $GOPATH/src/nukegara
         echo "$GOPATH/pkg/mod"
         ls -al $GOPATH/pkg/mod
-        echo ".go_pkg/mod/"
-        ls -al .go_pkg/mod/
+        echo ".go_pkg_mod/"
+        ls -al .go_pkg_mod/
