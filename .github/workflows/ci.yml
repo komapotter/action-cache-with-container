@@ -10,7 +10,7 @@ jobs:
     name: TestCache
     runs-on: ubuntu-18.04
     container:
-      image: 36rafts/nukegara-builder:latest
+      image: 36rafts/nukegara-box:latest
 
     steps:
       #    - name: Started Job
