@@ -15,7 +15,7 @@ jobs:
       uses: 8398a7/action-slack@v3
       if: always()
       with:
-        status: success
+        status: ${{ job.status }}
         fields: repo,message,commit,author
         mention: here
         if_mention: failure,cancelled
