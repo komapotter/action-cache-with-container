@@ -51,7 +51,7 @@ jobs:
       env:
         cache-name: go-mod-cache
       with:
-        path: $GOPATH/pkg/mod
+        path: /go/pkg/mod
         key: ${{ runner.os }}-build-${{ env.cache-name }}-
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
