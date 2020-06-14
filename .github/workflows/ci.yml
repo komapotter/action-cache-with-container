@@ -27,6 +27,11 @@ jobs:
       #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+    - name: init for cache
+      run: |
+        mkdir -p $GOPATH/pkg/mod
+        ln -s $GOPATH/pkg/mod .go_mod_cache
+
     - name: before cache-restore
       run: |
         echo "~"
@@ -36,17 +41,20 @@ jobs:
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
         echo "GOPATH: $GOPATH"
+        ls -al $GOPATH
         echo "$GOPATH/src/nukegara"
         ls -al $GOPATH/src/nukegara
         echo "$GOPATH/pkg"
         ls -al $GOPATH/pkg
+        echo ".go_mod_cache"
+        ls -al .go_mod_cache
 
     - uses: actions/cache@v2
       id: test-cache
       env:
-        cache-name: cache-text
+        cache-name: .go-mod-cache
       with:
-        path: .testcache
+        path: .go_mod_cache
         key: ${{ runner.os }}-build-${{ env.cache-name }}-
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -61,16 +69,18 @@ jobs:
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
         echo "GOPATH: $GOPATH"
+        ls -al $GOPATH
         echo "$GOPATH/src/nukegara"
         ls -al $GOPATH/src/nukegara
         echo "$GOPATH/pkg"
         ls -al $GOPATH/pkg
+        echo ".go_mod_cache"
+        ls -al .go_mod_cache
 
-    - name: write test-data
+    - name: go_mod_download
       if: steps.test-cache.outputs.cache-hit != 'true'
       run: |
-        mkdir .testcache
-        echo "testtesttest" > .testcache/test.txt
+        go mod download
 
     - name: after write test-data
       run: |
@@ -81,7 +91,10 @@ jobs:
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         ls -al $GITHUB_WORKSPACE
         echo "GOPATH: $GOPATH"
+        ls -al $GOPATH
         echo "$GOPATH/src/nukegara"
         ls -al $GOPATH/src/nukegara
         echo "$GOPATH/pkg"
         ls -al $GOPATH/pkg
+        echo ".go_mod_cache"
+        ls -al .go_mod_cache
