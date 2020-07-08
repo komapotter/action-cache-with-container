@@ -10,28 +10,29 @@ jobs:
     name: SetUp
     runs-on: ubuntu-18.04
     outputs:
-      docker_image: ${{ steps.set-image.outputs.docker_image }}
+      docker-image: ${{ steps.set-image.outputs.docker-image }}
     steps:
     - name: SetImage
       id: set-image
       run: |
-        echo "::set-output name=docker_image::36rafts/nukegara-box:latest"
+        echo "::set-output name=docker-image::36rafts/nukegara-box:latest"
 
     - name: EchoImage
       id: echo-image
       run: |
-        echo ${{ steps.set-image.outputs.docker_image }}
+        echo ${{ steps.set-image.outputs.docker-image }}
 
   test-cache:
     name: TestCache
     runs-on: ubuntu-18.04
+    needs: [setup]
 #    container:
 #      image: ${{ needs.image.outputs.docker_image }}
 
     steps:
     - name: echo
       run: |
-        echo ${{ needs.setup.outputs.docker_image }}
+        echo ${{ needs.setup.outputs.docker-image }}
 
       #    - name: Started Job
       #      uses: 8398a7/action-slack@v3
