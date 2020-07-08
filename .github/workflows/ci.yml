@@ -5,12 +5,15 @@ on:
     branches:
       - master
 
+env:
+  DOCKER_IMAGE: 36rafts/nukegara-box:latest
+
 jobs:
   test-cache:
     name: TestCache
     runs-on: ubuntu-18.04
     container:
-      image: 36rafts/nukegara-box:latest
+      image: ${DOCKER_IMAGE} 
 
     steps:
       #    - name: Started Job
