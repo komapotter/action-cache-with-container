@@ -10,13 +10,12 @@ jobs:
     name: Image
     runs-on: ubuntu-18.04
     outputs:
-      docker_image: ${{ steps.set-output.outputs.docker_image }}
+      docker_image: ${{ steps.set-image.outputs.docker_image }}
     steps:
-    - name: SetOutput
-      id: set-output
+    - name: SetImage
+      id: set-image
       run: |
-        export DOCKER_IMAGE=36rafts/nukegara-box:latest
-        echo "::set-output name=docker_image::${DOCKER_IMAGE}"
+        echo "::set-output name=docker_image::36rafts/nukegara-box:latest"
 
   test-cache:
     name: TestCache
