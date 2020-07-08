@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  image:
-    name: Image
+  setup:
+    name: SetUp
     runs-on: ubuntu-18.04
     outputs:
       docker_image: ${{ steps.set-image.outputs.docker_image }}
@@ -26,7 +26,7 @@ jobs:
     steps:
     - name: echo
       run: |
-        echo ${{ needs.image.outputs.docker_image }}
+        echo ${{ needs.setup.outputs.docker_image }}
 
       #    - name: Started Job
       #      uses: 8398a7/action-slack@v3
