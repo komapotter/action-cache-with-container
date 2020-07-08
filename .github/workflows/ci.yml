@@ -17,6 +17,11 @@ jobs:
       run: |
         echo "::set-output name=docker_image::36rafts/nukegara-box:latest"
 
+    - name: EchoImage
+      id: echo-image
+      run: |
+        echo ${{ steps.set-image.outputs.docker_image }}
+
   test-cache:
     name: TestCache
     runs-on: ubuntu-18.04
