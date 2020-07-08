@@ -20,10 +20,14 @@ jobs:
   test-cache:
     name: TestCache
     runs-on: ubuntu-18.04
-    container:
-      image: ${{ needs.image.outputs.docker_image }}
+#    container:
+#      image: ${{ needs.image.outputs.docker_image }}
 
     steps:
+    - name: echo
+      run: |
+        echo ${{ needs.image.outputs.docker_image }}
+
       #    - name: Started Job
       #      uses: 8398a7/action-slack@v3
       #      if: always()
@@ -38,68 +42,68 @@ jobs:
       #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-    - name: init for cache
-      run: |
-        mkdir -p $GOPATH/pkg/mod
-
-    - name: before cache-restore
-      run: |
-        echo "~"
-        ls -al ~/
-        echo "HOME: $HOME"
-        ls -al $HOME
-        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-        ls -al $GITHUB_WORKSPACE
-        echo "GOPATH: $GOPATH"
-        ls -al $GOPATH
-        echo "$GOPATH/src/nukegara"
-        ls -al $GOPATH/src/nukegara
-        echo "$GOPATH/pkg/mod"
-        ls -al $GOPATH/pkg/mod
-
-    - uses: actions/cache@v2
-      id: test-cache
-      env:
-        cache-name: go-mod-cache
-      with:
-        path: /go/pkg/mod
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-
-    - name: after cache-restore
-      run: |
-        echo "~"
-        ls -al ~/
-        echo "HOME: $HOME"
-        ls -al $HOME
-        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-        ls -al $GITHUB_WORKSPACE
-        echo "GOPATH: $GOPATH"
-        ls -al $GOPATH
-        echo "$GOPATH/src/nukegara"
-        ls -al $GOPATH/src/nukegara
-        echo "$GOPATH/pkg/mod"
-        ls -al $GOPATH/pkg/mod
-
-    - name: go_mod_download
-      if: steps.test-cache.outputs.cache-hit != 'true'
-      run: |
-        cd $GOPATH/src/nukegara
-        go mod download
-
-    - name: after write test-data
-      run: |
-        echo "~"
-        ls -al ~/
-        echo "HOME: $HOME"
-        ls -al $HOME
-        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-        ls -al $GITHUB_WORKSPACE
-        echo "GOPATH: $GOPATH"
-        ls -al $GOPATH
-        echo "$GOPATH/src/nukegara"
-        ls -al $GOPATH/src/nukegara
-        echo "$GOPATH/pkg/mod"
-        ls -al $GOPATH/pkg/mod
+#    - name: init for cache
+#      run: |
+#        mkdir -p $GOPATH/pkg/mod
+#
+#    - name: before cache-restore
+#      run: |
+#        echo "~"
+#        ls -al ~/
+#        echo "HOME: $HOME"
+#        ls -al $HOME
+#        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+#        ls -al $GITHUB_WORKSPACE
+#        echo "GOPATH: $GOPATH"
+#        ls -al $GOPATH
+#        echo "$GOPATH/src/nukegara"
+#        ls -al $GOPATH/src/nukegara
+#        echo "$GOPATH/pkg/mod"
+#        ls -al $GOPATH/pkg/mod
+#
+#    - uses: actions/cache@v2
+#      id: test-cache
+#      env:
+#        cache-name: go-mod-cache
+#      with:
+#        path: /go/pkg/mod
+#        key: ${{ runner.os }}-build-${{ env.cache-name }}-
+#        restore-keys: |
+#          ${{ runner.os }}-build-${{ env.cache-name }}-
+#          ${{ runner.os }}-build-
+#
+#    - name: after cache-restore
+#      run: |
+#        echo "~"
+#        ls -al ~/
+#        echo "HOME: $HOME"
+#        ls -al $HOME
+#        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+#        ls -al $GITHUB_WORKSPACE
+#        echo "GOPATH: $GOPATH"
+#        ls -al $GOPATH
+#        echo "$GOPATH/src/nukegara"
+#        ls -al $GOPATH/src/nukegara
+#        echo "$GOPATH/pkg/mod"
+#        ls -al $GOPATH/pkg/mod
+#
+#    - name: go_mod_download
+#      if: steps.test-cache.outputs.cache-hit != 'true'
+#      run: |
+#        cd $GOPATH/src/nukegara
+#        go mod download
+#
+#    - name: after write test-data
+#      run: |
+#        echo "~"
+#        ls -al ~/
+#        echo "HOME: $HOME"
+#        ls -al $HOME
+#        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+#        ls -al $GITHUB_WORKSPACE
+#        echo "GOPATH: $GOPATH"
+#        ls -al $GOPATH
+#        echo "$GOPATH/src/nukegara"
+#        ls -al $GOPATH/src/nukegara
+#        echo "$GOPATH/pkg/mod"
+#        ls -al $GOPATH/pkg/mod
