@@ -26,8 +26,8 @@ jobs:
     name: TestCache
     runs-on: ubuntu-18.04
     needs: [setup]
-#    container:
-#      image: ${{ needs.image.outputs.docker_image }}
+    container:
+      image: ${{ needs.image.outputs.docker_image }}
 
     steps:
     - name: echo
@@ -48,9 +48,9 @@ jobs:
       #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-#    - name: init for cache
-#      run: |
-#        mkdir -p $GOPATH/pkg/mod
+    - name: init for cache
+      run: |
+        mkdir -p $GOPATH/pkg/mod
 #
 #    - name: before cache-restore
 #      run: |
