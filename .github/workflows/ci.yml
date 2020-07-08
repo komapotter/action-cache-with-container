@@ -13,7 +13,7 @@ jobs:
     name: TestCache
     runs-on: ubuntu-18.04
     container:
-      image: ${DOCKER_IMAGE} 
+      image: ${{ env.DOCKER_IMAGE }} 
 
     steps:
       #    - name: Started Job
